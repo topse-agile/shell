@@ -11,53 +11,34 @@ public class Shell {
 
     public void run() {
         while (true) {
-            String input = getInput();
-            if (input == null) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            String input = "";
+            try {
+                while (input.isEmpty()) {
+                    output(" > ");
+                    input = reader.readLine();
+                    input = input.trim();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
                 continue;
             }
-            String[] parameters = parseInput(input);
+
+            String[] parameters = input.split(" ");
             if ("exit".equals(parameters[0])) {
                 break;
             } else if ("echo".equals(parameters[0])) {
-                echo(parameters);
+                for (int i = 1; i < parameters.length; ++i) {
+                    System.out.print(parameters[i]);
+                    if (i == parameters.length - 1) {
+                        System.out.print(("\n");
+                    } else {
+                        System.out.print((" ");
+                    }
+                }
             } else {
-                output("Command Not Found.\n");
+                System.out.print("Command Not Found.\n");
             }
         }
     }
-
-    void echo (String[] parameters) {
-        for (int i = 1; i < parameters.length; ++i) {
-            output(parameters[i]);
-            if (i == parameters.length - 1) {
-                output("\n");
-            } else {
-                output(" ");
-            }
-        }
-    }
-
-    private String getInput() {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String line = "";
-        try {
-            while (line.isEmpty()) {
-                output(" > ");
-                line = reader.readLine();
-                line = line.trim();
-            }
-        } catch (IOException e) {
-            return null;
-        }
-        return line;
-    }
-
-    private String[] parseInput(String input) {
-        return input.split(" ");
-    }
-
-    private void output(String str) {
-        System.out.print(str);
-    }
-
 }

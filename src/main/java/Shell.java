@@ -15,7 +15,7 @@ public class Shell {
             String input = "";
             try {
                 while (input.isEmpty()) {
-                    output(" > ");
+                    System.out.print(" > ");
                     input = reader.readLine();
                     input = input.trim();
                 }
@@ -31,9 +31,9 @@ public class Shell {
                 for (int i = 1; i < parameters.length; ++i) {
                     System.out.print(parameters[i]);
                     if (i == parameters.length - 1) {
-                        System.out.print(("\n");
+                        System.out.print("\n");
                     } else {
-                        System.out.print((" ");
+                        System.out.print(" ");
                     }
                 }
             } else {

@@ -4,36 +4,41 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import java.io.ByteArrayInputStream;
+import java.io.*;
 
 public class ShellTest {
-    @Test
-    public void testSomething() {
-        assertThat(1, is(1));
+    private static class ObservableOutput implements Shell.Output {
+        private final StringBuffer stringBuffer = new StringBuffer();
+        @Override
+        public void print(String s) {
+            stringBuffer.append(s);
+        }
+
+        public String getOutput() {
+            return stringBuffer.toString();
+        }
     }
 
-    @Test
-    public void test_getInputReturnTheString() {
-        Shell shell = new Shell();
-        shell.setInputStream(new ByteArrayInputStream("topse".getBytes()));
-
-        String input = shell.getInput();
-
-        assertThat(input, is("topse"));
-    }
+    private final ObservableOutput output = new ObservableOutput();
 
     @Test
-    public void test_echoOutputTheString() {
+    public void test_executeEchoCommand() {
         Shell shell = new Shell();
-        StringBuffer buffer = new StringBuffer();
-        shell.setOutput(new Shell.Output() {
-            public void print(String s) {
-                buffer.append(s);
+        shell.setInput(new Shell.Input() {
+            private final static String[] commands = {
+                    "echo ABC",
+                    "exit",
+            };
+            private int index = 0;
+            @Override
+            public String getLine() {
+                return commands[index++];
             }
         });
+        shell.setOutput(output);
 
-        shell.echo(new String[] { "echo", "AAA" });
+        shell.run();
 
-        assertThat(buffer.toString(), is("AAA\n"));
+        assertThat(output.getOutput(), is(Shell.prompt + "ABC\n" + Shell.prompt));
     }
 }

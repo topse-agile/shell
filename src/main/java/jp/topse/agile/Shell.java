@@ -10,53 +10,59 @@ import java.io.InputStream;
 
 public class Shell {
 
+    public static final String prompt = " > ";
+
     public static void main(String[] args) {
         Shell shell = new Shell();
         shell.run();
+    }
+
+    public static interface Input {
+        public String getLine();
     }
 
     public static interface Output {
         public void print(String s);
     }
 
-    public static class DefaultOutput implements Output {
+    private Input input = new Input() {
+        @Override
+        public String getLine() {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            String input = "";
+            try {
+                while (input.isEmpty()) {
+                    input = reader.readLine();
+                    input = input.trim();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+            return input;
+        }
+    };
+
+    private Output output = new Output() {
+        @Override
         public void print(String s) {
             System.out.print(s);
         }
-    }
+    };
 
-    private InputStream inputStream = System.in;
-
-    private Output output = new DefaultOutput();
-
-    public void setInputStream(InputStream inputStream) {
-        this.inputStream = inputStream;
+    public void setInput(Input input) {
+        this.input = input;
     }
 
     public void setOutput(Output output) {
         this.output = output;
     }
 
-    public String getInput() {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        String input = "";
-        try {
-            while (input.isEmpty()) {
-                output.print(" > ");
-                input = reader.readLine();
-                input = input.trim();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return input;
-    }
-
     public void run() {
         while (true) {
-            String input = getInput();
-            String[] parameters = input.split(" ");
+            output.print(prompt);
+            String command = input.getLine();
+            String[] parameters = command.split(" ");
             if ("exit".equals(parameters[0])) {
                 break;
             } else if ("echo".equals(parameters[0])) {

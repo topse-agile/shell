@@ -13,27 +13,14 @@ public class ShellTest {
     }
 
     @Test
-    public void test_getInputReturnTheString() {
-        Shell shell = new Shell();
-        shell.setInputStream(new ByteArrayInputStream("topse".getBytes()));
-
-        String input = shell.getInput();
-
-        assertThat(input, is("topse"));
-    }
-
-    @Test
     public void test_echoOutputTheString() {
-        Shell shell = new Shell();
-        StringBuffer buffer = new StringBuffer();
-        shell.setOutput(new Shell.Output() {
-            public void print(String s) {
-                buffer.append(s);
-            }
-        });
-
-        shell.echo(new String[] { "echo", "AAA" });
-
-        assertThat(buffer.toString(), is("AAA\n"));
+        // Shellオブジェクトのechoメソッドのテスト
+        // echoに [ "echo", "AAA" ]という配列を渡すと、AAAと出力される
     }
+    
+    @Test
+    public void test_getInputReturnTheString() {
+        // Shellオブジェクトのinputで適切な入力を受け取れる
+    }
+
 }

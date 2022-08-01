@@ -5,13 +5,13 @@ import jp.topse.agile.Shell;
 public class Echo implements Base {
 
     @Override
-    public void execute(String[] parameters, Shell.Output output) {
+    public void execute(String[] parameters) {
         for (int i = 1; i < parameters.length; ++i) {
-            output.print(parameters[i]);
+            System.out.print(parameters[i]);
             if (i == parameters.length - 1) {
-                output.print("\n");
+                System.out.print("\n");
             } else {
-                output.print(" ");
+                System.out.print(" ");
             }
         }
     }

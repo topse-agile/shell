@@ -15,12 +15,34 @@ public class Shell {
         shell.run();
     }
 
+    public static interface Output {
+        public void print(String s);
+    }
+
+    public static class DefaultOutput implements Output {
+        public void print(String s) {
+            System.out.print(s);
+        }
+    }
+
+    private InputStream inputStream = System.in;
+
+    private Output output = new DefaultOutput();
+
+    public void setInputStream(InputStream inputStream) {
+        this.inputStream = inputStream;
+    }
+
+    public void setOutput(Output output) {
+        this.output = output;
+    }
+
     public String getInput() {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         String input = "";
         try {
             while (input.isEmpty()) {
-                System.out.print(" > ");
+                output.print(" > ");
                 input = reader.readLine();
                 input = input.trim();
             }
@@ -40,13 +62,13 @@ public class Shell {
             } else if ("echo".equals(parameters[0])) {
                 echo(parameters);
             } else {
-                System.out.print("Command Not Found.\n");
+                output.print("Command Not Found.\n");
             }
         }
     }
 
     public void echo(String[] parameters) {
         Echo echo = new Echo();
-        echo.execute(parameters);
+        echo.execute(parameters, output);
     }
 }

@@ -11,6 +11,15 @@ import static org.hamcrest.Matchers.*;
 public class EchoTest {
     @Test
     public void test_echoOutputTheString() {
-        // Echoオブジェクトのexecuteに ["AAA"] を渡すと、AAAと表示される
+        Echo echo = new Echo();
+        StringBuffer buffer = new StringBuffer();
+
+        echo.execute(new String[] { "echo", "AAA" }, new Shell.Output() {
+            public void print(String s) {
+                buffer.append(s);
+            }
+        });
+
+        assertThat(buffer.toString(), is("AAA\n"));
     }
 }

@@ -1,44 +1,34 @@
 package jp.topse.agile;
 
 import org.junit.jupiter.api.Test;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import org.mockito.InOrder;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
 import java.io.*;
 
-public class ShellTest {
-    private static class ObservableOutput implements Shell.Output {
-        private final StringBuffer stringBuffer = new StringBuffer();
-        @Override
-        public void print(String s) {
-            stringBuffer.append(s);
-        }
+import static org.mockito.Mockito.*;
 
-        public String getOutput() {
-            return stringBuffer.toString();
-        }
-    }
+public class ShellTest extends BaseMockTestCase {
+    @Mock
+    private Shell.Input input;
 
-    private final ObservableOutput output = new ObservableOutput();
+    @Mock
+    private Shell.Output output;
+
+    @InjectMocks
+    private Shell shell;
 
     @Test
     public void test_executeEchoCommand() {
-        Shell shell = new Shell();
-        shell.setInput(new Shell.Input() {
-            private final static String[] commands = {
-                    "echo ABC",
-                    "exit",
-            };
-            private int index = 0;
-            @Override
-            public String getLine() {
-                return commands[index++];
-            }
-        });
-        shell.setOutput(output);
+        when(input.getLine()).thenReturn("echo ABC").thenReturn("exit");
 
         shell.run();
 
-        assertThat(output.getOutput(), is(Shell.prompt + "ABC\n" + Shell.prompt));
+        InOrder inOrder = inOrder(output);
+        inOrder.verify(output).print(Shell.prompt);
+        inOrder.verify(output).print("ABC");
+        inOrder.verify(output).print("\n");
+        inOrder.verify(output).print(Shell.prompt);
     }
 }

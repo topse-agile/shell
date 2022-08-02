@@ -50,14 +50,6 @@ public class Shell {
         }
     };
 
-    public void setInput(Input input) {
-        this.input = input;
-    }
-
-    public void setOutput(Output output) {
-        this.output = output;
-    }
-
     public void run() {
         while (true) {
             output.print(prompt);

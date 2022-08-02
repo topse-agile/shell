@@ -1,4 +1,4 @@
-package jp.topse.commands;
+package jp.topse.agile.commands;
 
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +11,6 @@ import static org.hamcrest.Matchers.*;
 public class EchoTest {
     @Test
     public void test_echoOutputTheString() {
-        // Echoオブジェクトのexecuteに ["AAA"] を渡すと、AAAと表示される
+        // Echoオブジェクトのexecuteに ["echo", "AAA"] を渡すと、AAAと表示される
     }
 }

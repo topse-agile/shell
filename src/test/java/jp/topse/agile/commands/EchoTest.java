@@ -1,4 +1,4 @@
-package jp.topse.commands;
+package jp.topse.agile.commands;
 
 import org.junit.jupiter.api.Test;
 

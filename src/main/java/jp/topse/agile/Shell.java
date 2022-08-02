@@ -29,17 +29,14 @@ public class Shell {
         @Override
         public String getLine() {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            String input = "";
+            String command = "";
             try {
-                while (input.isEmpty()) {
-                    input = reader.readLine();
-                    input = input.trim();
-                }
+                command = reader.readLine();
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
             }
-            return input;
+            return command;
         }
     };
 
@@ -50,10 +47,19 @@ public class Shell {
         }
     };
 
+    private String readLine() {
+        String command = "";
+        while (command.isEmpty()) {
+            output.print(prompt);
+            command = input.getLine();
+            command = command.trim();
+        }
+        return command;
+    }
+
     public void run() {
         while (true) {
-            output.print(prompt);
-            String command = input.getLine();
+            String command = readLine();
             String[] parameters = command.split(" ");
             if ("exit".equals(parameters[0])) {
                 break;

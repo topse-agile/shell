@@ -5,6 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 public class ShellTest {
+
     private static class ObservableOutput implements Shell.Output {
         private final StringBuffer stringBuffer = new StringBuffer();
         @Override

@@ -5,8 +5,6 @@ import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import java.io.*;
-
 import static org.mockito.Mockito.*;
 
 public class ShellTest extends BaseMockTestCase {

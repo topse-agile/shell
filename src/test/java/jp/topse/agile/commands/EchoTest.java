@@ -1,19 +1,12 @@
 package jp.topse.agile.commands;
 
 import jp.topse.agile.BaseMockTestCase;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import jp.topse.agile.Shell;
-import jp.topse.agile.commands.Echo;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class EchoTest extends BaseMockTestCase {
 
